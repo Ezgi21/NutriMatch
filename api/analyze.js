@@ -16,15 +16,19 @@ export default async function handler(req, res) {
     }
 
     const systemInstruction = `Sen uzman bir beslenme asistanısın.
-Kullanıcının seçtiği hastalıklara (${selectedDiseases.join(", ")}) göre gönderilen içerikleri analiz et.
-Yanıtın KESİNLİKLE Türkçe olmalı ve açıklamaların asla 3 cümleyi geçmemelidir.
-Çıktıyı tam olarak aşağıdaki JSON formatında yapılandır. Risk seviyesini, tehlikeli maddeleri ve sağlıklı alternatifleri içerecek şekilde eşleştir:
+Kullanıcının seçtiği hastalıklara (${selectedDiseases.join(", ")}) göre gönderilen içerikleri "gıda ismine" göre detaylıca parçalayarak analiz et.
+Yanıtın KESİNLİKLE Türkçe olmalı ve her gıda için açıklamalar 2 cümleyi geçmemelidir.
+Çıktıyı tam olarak aşağıdaki JSON formatında yapılandır. Her gıdayı ayrı bir obje olarak kendi risk kategorisine ekle:
 {
-  "risk_level": "Düşük / Orta / Yüksek",
-  "green": ["Güvenli ürünler"],
-  "yellow": ["Dikkatli tüketilmesi gerekenler"],
-  "red": ["Tehlikeli maddeler (uygunsuz içerikler ve nedenleri)"],
-  "alternative": "Sağlıklı alternatifler ve öneriler (maksimum 3 cümle)"
+  "green": [
+    { "food": "Elma", "advice": "Güvenle yiyebilirsiniz." }
+  ],
+  "yellow": [
+    { "food": "Köfte", "advice": "Yağ içeriği yüksek olabilir. Porsiyon kontrolüne dikkat edin." }
+  ],
+  "red": [
+    { "food": "Baklava", "advice": "Aşırı şeker içerir. Yerine meyve tatlısı tercih edin." }
+  ]
 }
 Ürün bulunmayan kategoriyi boş dizi [] bırak. Yazılı hiçbir ek açıklama yapmadan sadece JSON döndür.`;
 
@@ -43,7 +47,7 @@ Yanıtın KESİNLİKLE Türkçe olmalı ve açıklamaların asla 3 cümleyi geç
                     { role: "system", content: systemInstruction },
                     { role: "user", content: userMessage }
                 ],
-                temperature: 0.2,
+                temperature: 0.2, // Mantıksal format uyumu için düşük sıcaklık
                 response_format: { type: "json_object" }
             })
         });

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Arama, Giriş ve Sonuç Komponentleri
     const btnAnalyze = document.getElementById("analyze-btn");
     const inputIngredients = document.getElementById("ingredients-input");
-
+    
     // Checkbox'lar
     const chkDiyabet = document.getElementById("chk-diyabet");
     const chkColyak = document.getElementById("chk-colyak");
@@ -22,25 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Geçmiş Aramalar (Son 5 Analiz) DOM
     const historyContainer = document.getElementById("history-container");
     const historyList = document.getElementById("history-list");
-    const historyCount = document.getElementById("history-count"); // Sayaç
+    const historyCount = document.getElementById("history-count"); 
     let searchHistory = JSON.parse(localStorage.getItem("nutrimatch_history")) || [];
 
-    // Güvenli Alışveriş Listesi DOM (Tüm Yeşil Items)
+    // Güvenli Alışveriş Listesi DOM 
     const safeListContainer = document.getElementById("safe-list-container");
     const safeListEl = document.getElementById("safe-list");
     const clearSafeListBtn = document.getElementById("clear-safe-list-btn");
-    const safeListCount = document.getElementById("safe-list-count"); // Sayaç
-    const safeListEmptyMsg = document.getElementById("safe-list-empty"); // Boş Mesaj
+    const safeListCount = document.getElementById("safe-list-count"); 
+    const safeListEmptyMsg = document.getElementById("safe-list-empty"); 
     let safeItemsHistory = JSON.parse(localStorage.getItem("nutrimatch_safe_items")) || [];
 
-    // "Nasıl Çalışır" ModalDOM
+    // Modal İşlemleri
     const btnHowItWorks = document.getElementById("how-it-works-btn");
     const modalHowItWorks = document.getElementById("how-it-works-modal");
     const btnCloseModal = document.getElementById("close-modal-btn");
     const modalBackdrop = document.getElementById("modal-backdrop");
-
-    // "Nasıl Çalışır" Modal İşlemleri
-    if (btnHowItWorks && modalHowItWorks) {
+    
+    if(btnHowItWorks && modalHowItWorks) {
         btnHowItWorks.addEventListener("click", () => {
             modalHowItWorks.classList.remove("hidden");
             setTimeout(() => modalHowItWorks.classList.add("active"), 10);
@@ -55,16 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
         modalBackdrop.addEventListener("click", closeModal);
     }
 
-    // LocalStorage: Güvenli Alışveriş Listesi Yönetimi
+    // Alışveriş Listesi Görüntüleme
     function renderSafeList() {
         if (!safeListEl) return;
         safeListEl.innerHTML = "";
-
+        
         if (safeItemsHistory.length > 0) {
-            safeListCount.textContent = safeItemsHistory.length; // Sayaç güncelle
-            safeListEmptyMsg.classList.add("hidden"); // Boş yazısını gizle
-            clearSafeListBtn.classList.remove("hidden"); // Temizle butonunu göster
-
+            safeListCount.textContent = safeItemsHistory.length; 
+            safeListEmptyMsg.classList.add("hidden"); 
+            clearSafeListBtn.classList.remove("hidden"); 
+            
             safeItemsHistory.forEach((item) => {
                 const card = document.createElement("div");
                 card.className = "safe-item-card";
@@ -72,26 +71,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 safeListEl.appendChild(card);
             });
         } else {
-            safeListCount.textContent = "0"; // Sayaç sıfırla
-            safeListEmptyMsg.classList.remove("hidden"); // Boş yazısı göster
-            clearSafeListBtn.classList.add("hidden"); // Temizle butonu gizle
+            safeListCount.textContent = "0"; 
+            safeListEmptyMsg.classList.remove("hidden"); 
+            clearSafeListBtn.classList.add("hidden"); 
         }
     }
 
     function addToSafeList(greenItemsArray) {
         if (!greenItemsArray || greenItemsArray.length === 0) return;
-
+        
         greenItemsArray.forEach(item => {
-            const cleanItem = item.trim();
-            // Aynı ürün alışveriş listesinde varsa tekrar eklenmesin (küçük/büyük harf duyarsız)
+            // Yiyecek string veya obje (yeni JSON yapısı) olabilir, esnek yakala
+            const textValue = typeof item === 'string' ? item : (item.food || "");
+            const cleanItem = textValue.trim();
+            
+            if (cleanItem.length === 0) return;
+            
             const exists = safeItemsHistory.some(existing => existing.toLowerCase() === cleanItem.toLowerCase());
-
-            if (!exists && cleanItem.length > 0) {
-                // Her eklenen yeni ürünü dizinin en üstüne ekliyoruz
+            
+            if (!exists) {
                 safeItemsHistory.unshift(cleanItem);
             }
         });
-
+        
         localStorage.setItem("nutrimatch_safe_items", JSON.stringify(safeItemsHistory));
         renderSafeList();
     }
@@ -106,37 +108,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // LocalStorage: Geçmiş Arama Yönetimi (Son 5)
+    // Geçmiş Arama Yönetimi 
     function renderHistory() {
         if (!historyList) return;
         historyList.innerHTML = "";
-
+        
         if (searchHistory.length > 0) {
             historyContainer.classList.remove("hidden");
-            historyCount.textContent = searchHistory.length; // Sayaç güncelle
+            historyCount.textContent = searchHistory.length; 
             searchHistory.forEach((item) => {
                 const card = document.createElement("div");
                 card.className = "history-card";
                 card.title = `${item.text} (${item.diseases.join(", ")})`;
-
+                
                 let shortText = item.text.length > 18 ? item.text.substring(0, 18) + "..." : item.text;
                 card.innerHTML = `<span>🕒 ${shortText}</span>`;
-
-                // Karta tıklanınca eski sonuçları getir
+                
                 card.addEventListener("click", () => {
                     inputIngredients.value = item.text;
                     chkDiyabet.checked = item.diseases.includes("Diyabet");
                     chkColyak.checked = item.diseases.includes("Çölyak (Glutensiz diyet)");
                     chkHipertansiyon.checked = item.diseases.includes("Hipertansiyon (Düşük sodyum/tuzlu)");
-
+                    
                     showResultsUI(item.parsedData);
                 });
-
+                
                 historyList.appendChild(card);
             });
         } else {
             historyContainer.classList.add("hidden");
-            historyCount.textContent = "0"; // Sayaç sıfırla
+            historyCount.textContent = "0"; 
         }
     }
 
@@ -145,53 +146,62 @@ document.addEventListener("DOMContentLoaded", () => {
         if (existingIndex !== -1) {
             searchHistory.splice(existingIndex, 1);
         }
-
+        
         searchHistory.unshift({
             text: text,
             diseases: diseases,
             parsedData: parsedData,
             date: new Date().toISOString()
         });
-
+        
         if (searchHistory.length > 5) {
             searchHistory.pop();
         }
-
+        
         localStorage.setItem("nutrimatch_history", JSON.stringify(searchHistory));
         renderHistory();
     }
 
     // Arayüz Sonuç Yansıtma Modülü
     function showResultsUI(parsedData) {
+        // Obje veya eski versiyondan kalma stringleri güvenle basmak için map fonksiyonları:
+        
         if (parsedData.green && parsedData.green.length > 0) {
-            resultGreen.innerHTML = `<ul class="list-disc list-inside">` +
-                parsedData.green.map(item => `<li class="mb-1">${item}</li>`).join('') + `</ul>`;
+            resultGreen.innerHTML = `<ul class="list-none space-y-2">` + 
+                parsedData.green.map(item => {
+                    if (typeof item === 'string') return `<li class="mb-1">✅ ${item}</li>`;
+                    return `<li class="mb-1 bg-green-50/50 p-2 rounded-lg border border-green-100"><strong class="text-green-900 block md:inline">${item.food}:</strong> <span class="text-green-800">${item.advice}</span></li>`;
+                }).join('') + `</ul>`;
         } else {
             resultGreen.innerHTML = `<p class="italic text-gray-500">Bu test için güvenli onaylanan yiyecek bulunamadı.</p>`;
         }
 
         if (parsedData.yellow && parsedData.yellow.length > 0) {
-            resultYellow.innerHTML = `<ul class="list-disc list-inside">` +
-                parsedData.yellow.map(item => `<li class="mb-1">${item}</li>`).join('') + `</ul>`;
+            resultYellow.innerHTML = `<ul class="list-none space-y-2">` + 
+                parsedData.yellow.map(item => {
+                    if (typeof item === 'string') return `<li class="mb-1">⚠️ ${item}</li>`;
+                    return `<li class="mb-1 bg-yellow-50/50 p-2 rounded-lg border border-yellow-100"><strong class="text-yellow-900 block md:inline">${item.food}:</strong> <span class="text-yellow-800">${item.advice}</span></li>`;
+                }).join('') + `</ul>`;
         } else {
             resultYellow.innerHTML = `<p class="italic text-gray-500">Bu test için dikkat sekmesinde yiyecek bulunamadı.</p>`;
         }
 
         if (parsedData.red && parsedData.red.length > 0) {
-            resultRed.innerHTML = `<ul class="list-disc list-inside">` +
-                parsedData.red.map(item => `<li class="mb-1">${item}</li>`).join('') + `</ul>`;
+            resultRed.innerHTML = `<ul class="list-none space-y-2">` + 
+                parsedData.red.map(item => {
+                    if (typeof item === 'string') return `<li class="mb-1">🚫 ${item}</li>`;
+                    return `<li class="mb-1 bg-red-50/50 p-2 rounded-lg border border-red-100"><strong class="text-red-900 block text-lg mb-1">${item.food}</strong><span class="text-red-800 block">${item.advice}</span></li>`;
+                }).join('') + `</ul>`;
         } else {
             resultRed.innerHTML = `<p class="italic text-gray-500">Bu test için riskli kabul edilen yiyecek bulunmamaktadır.</p>`;
         }
 
-        if (parsedData.alternative && parsedData.red && parsedData.red.length > 0) {
-            resultAlternative.textContent = parsedData.alternative;
-        } else {
-            resultAlternative.textContent = "Kırmızı kategoride riskli bir ürün olmadığı için özel bir uyarımız bulunmamaktadır. Afiyet olsun!";
-        }
+        // Genel "Alternatif" blokunu artık kullanmıyoruz çünkü gıdaların içerisine (advice içine) gömülü geliyor.
+        const altContainer = resultAlternative?.parentElement;
+        if (altContainer) altContainer.classList.add("hidden");
 
         resultsSection.classList.remove("hidden");
-        // Scroll'un animasyonu yumuşatmaya engel olmaması için timeout eklemesi
+        // Optimizasyonlu Scroll:
         setTimeout(() => {
             resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 50);
@@ -205,7 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return diseases;
     }
 
-    // "Yapay Zeka ile Analiz Et" Butonuna Tıklanma Olayı
     btnAnalyze.addEventListener("click", async () => {
         const oldWarning = document.getElementById("quota-warning");
         if (oldWarning) oldWarning.remove();
@@ -225,33 +234,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resultsSection.classList.add("hidden");
         loadingIndicator.classList.remove("hidden");
-
-        // Hız Kontrolü & Buton Görseli İsteği
+        
         inputIngredients.disabled = true;
         btnAnalyze.disabled = true;
         btnAnalyze.innerHTML = `⚡ Analiz Ediliyor...`;
 
         try {
-            // Prompt oluşturma ve API request işlemleri modüler "analyzeWithGroq" a devredildi.
+            // features/analysis.js üzerinden yönlendirmeli analiz başlat
             let rawResponse = await analyzeWithGroq(textContent, selectedDiseases);
             rawResponse = rawResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
-
+            
             const parsedData = JSON.parse(rawResponse);
-
-            // 1. Yeni JSON Datalarını Ekrana Bas
+            
             showResultsUI(parsedData);
-
-            // 2. Başarılı İşlemi Arama Geçmişine Kaydet
             saveToHistory(textContent, selectedDiseases, parsedData);
 
-            // 3. Güvenli (Yeşil) Listeye Çıkan Ürünleri Ekle
             if (parsedData.green && parsedData.green.length > 0) {
                 addToSafeList(parsedData.green);
             }
 
         } catch (error) {
             console.error("DOM Olayı veya API Hatası:", error);
-
+            
             if (error.message === "QUOTA_ERROR" || error.message.includes("429")) {
                 const quotaWarning = document.createElement("div");
                 quotaWarning.id = "quota-warning";
@@ -265,14 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
                 btnAnalyze.parentElement.parentElement.insertBefore(quotaWarning, btnAnalyze.parentElement);
             } else {
-                // Diğer tüm hatalarda sadece alert çıkar
                 alert(`Analiz veya ekrana yansıtma sırasında bir hata oluştu:\n${error.message}`);
             }
 
         } finally {
             loadingIndicator.classList.add("hidden");
             inputIngredients.disabled = false;
-
+            
             btnAnalyze.disabled = false;
             btnAnalyze.innerHTML = `
                 <svg class="w-5 h-5 shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -281,7 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Açılışta Listeleri İlk Kez Render Etme
     renderHistory();
     renderSafeList();
 });
