@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMatch - Akıllı İçerik Analizi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        primaryhvr: '#059669',
+                        lightbg: '#f8fafc',
+                        cardbg: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-lightbg text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-primary to-emerald-400 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
+                    NM
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">NutriMatch</h1>
+                    <p class="text-sm text-slate-500 font-medium">Sağlığınız İçin Akıllı İçerik Analizi</p>
+                </div>
+            </div>
+            <!-- Nasıl Çalışır? -->
+            <button id="how-it-works-btn" class="mt-4 sm:mt-0 text-purple-700 hover:text-purple-900 text-sm font-semibold transition-colors flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Nasıl Çalışır?
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-6 md:py-8 w-full">
+        <div class="space-y-6 md:space-y-8">
+            
+            <!-- Hastalık Seçim Alanı -->
+            <section class="bg-cardbg p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-lg font-semibold text-slate-800 mb-5 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    1. Kronik Rahatsızlıklarınızı Seçin
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <label class="relative flex items-center cursor-pointer rounded-xl border border-gray-200 bg-gray-50 p-4 shadow-sm hover:border-primary hover:bg-emerald-50 focus-within:ring-2 focus-within:ring-primary transition-all group">
+                        <input type="checkbox" id="chk-diyabet" value="Diyabet" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 transition-all cursor-pointer">
+                        <span class="ml-3 font-medium text-slate-700 group-hover:text-primaryhvr transition-colors">Diyabet</span>
+                    </label>
+
+                    <label class="relative flex items-center cursor-pointer rounded-xl border border-gray-200 bg-gray-50 p-4 shadow-sm hover:border-primary hover:bg-emerald-50 focus-within:ring-2 focus-within:ring-primary transition-all group">
+                        <input type="checkbox" id="chk-colyak" value="Çölyak" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 transition-all cursor-pointer">
+                        <span class="ml-3 font-medium text-slate-700 group-hover:text-primaryhvr transition-colors">Çölyak (Glutensiz)</span>
+                    </label>
+
+                    <label class="relative flex items-center cursor-pointer rounded-xl border border-gray-200 bg-gray-50 p-4 shadow-sm hover:border-primary hover:bg-emerald-50 focus-within:ring-2 focus-within:ring-primary transition-all group">
+                        <input type="checkbox" id="chk-hipertansiyon" value="Hipertansiyon" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 transition-all cursor-pointer">
+                        <span class="ml-3 font-medium text-slate-700 group-hover:text-primaryhvr transition-colors">Hipertansiyon</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Veri Giriş Alanı ve Geçmiş/Sepet Listesi -->
+            <section class="bg-cardbg p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 2v4h4M10 9v6m-3-3h6"></path></svg>
+                    2. İçerik veya Menü Yapıştırın
+                </h2>
+                
+                <div class="relative">
+                    <textarea id="ingredients-input" rows="6" placeholder="Örnek: Tavuk suyu çorbası, süzme mercimek, bol tuzlu patates kızartması ve buğday ekmeği..." class="w-full text-slate-700 bg-gray-50 border border-gray-200 rounded-xl p-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-y shadow-inner"></textarea>
+                    
+                    <div class="absolute bottom-4 right-4 text-xs text-slate-400 font-medium">
+                        (Maksimum 2000 karakter idealdir)
+                    </div>
+                </div>
+                
+                <div class="mt-5 flex justify-end">
+                    <button id="analyze-btn" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-primary to-emerald-600 hover:from-primaryhvr hover:to-emerald-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 transform active:scale-[0.98]">
+                        <svg class="w-5 h-5 shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Yapay Zeka ile Analiz Et
+                    </button>
+                </div>
+                
+                <!-- 🕒 Son Analizlerim Alanı -->
+                <div id="history-container" class="mt-8 hidden border-t border-gray-100 pt-5">
+                    <h3 class="text-sm font-semibold text-purple-800 mb-3 flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Son Analizlerim
+                        <span id="history-count" class="ml-1 bg-purple-100 text-purple-800 text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">0</span>
+                    </h3>
+                    <div id="history-list" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- 🛒 Güvenli Alışveriş Listem Alanı -->
+                <div id="safe-list-container" class="mt-6 border-t border-gray-100 pt-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-green-700 flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            Güvenli Alışveriş Listem
+                            <span id="safe-list-count" class="ml-1 bg-green-100 text-green-800 text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">0</span>
+                        </h3>
+                        <button id="clear-safe-list-btn" class="text-xs text-red-500 hover:text-red-700 font-semibold px-3 py-1 rounded-lg border border-red-200 hover:bg-red-50 transition-colors hidden">
+                            Listeyi Temizle
+                        </button>
+                    </div>
+                    
+                    <!-- Liste Boş Mesajı -->
+                    <p id="safe-list-empty" class="text-sm text-slate-400 font-medium italic mt-2">Henüz güvenli ürünün yok, analiz et ve ekle! 🛒</p>
+                    
+                    <div id="safe-list" class="flex flex-wrap gap-2"></div>
+                </div>
+            </section>
+
+            <!-- Yükleniyor Göstergesi -->
+            <div id="loading-indicator" class="hidden flex flex-col items-center justify-center py-10 opacity-0 transition-opacity duration-300">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+                <p class="text-slate-600 font-medium text-lg">Yapay Zeka içerikleri analiz ediyor...</p>
+                <p class="text-slate-400 text-sm mt-1">Lütfen birkaç saniye bekleyin</p>
+            </div>
+
+            <!-- Sonuç Ekranı (Trafik Işığı Sistemi) -->
+            <section id="results-section" class="hidden space-y-6 md:space-y-8">
+                <h2 class="text-xl font-bold text-slate-800 border-b border-gray-200 pb-2 mb-4">Analiz Sonucu</h2>
+
+                <!-- 🟢 Yeşil Kart (Güvenli) -->
+                <div class="bg-green-50 border border-green-200 rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden transition-all hover:bg-green-100/50">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-green-100 p-2 rounded-full flex-shrink-0">
+                            <span class="text-2xl" role="img" aria-label="Güvenli">🟢</span>
+                        </div>
+                        <div class="w-full">
+                            <h3 class="text-lg font-bold text-green-800 mb-2">✅ Güvenli İçerikler</h3>
+                            <p class="text-sm text-green-700 mb-3 font-medium">Bu yiyecekleri gönül rahatlığıyla tüketebilirsiniz.</p>
+                            <div id="result-green" class="text-slate-700 text-sm space-y-1 bg-white p-3 rounded-lg border border-green-100 shadow-sm min-h-[50px]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🟡 Sarı Kart (Dikkatli) -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden transition-all hover:bg-yellow-100/50">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-yellow-400"></div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-yellow-100 p-2 rounded-full flex-shrink-0">
+                            <span class="text-2xl" role="img" aria-label="Dikkat">🟡</span>
+                        </div>
+                        <div class="w-full">
+                            <h3 class="text-lg font-bold text-yellow-800 mb-2">⚠️ Dikkatli Olun</h3>
+                            <p class="text-sm text-yellow-700 mb-3 font-medium">Porsiyon kontrolü veya doktor tavsiyesiyle tüketilmesi gerekenler.</p>
+                            <div id="result-yellow" class="text-slate-700 text-sm space-y-1 bg-white p-3 rounded-lg border border-yellow-100 shadow-sm min-h-[50px]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🔴 Kırmızı Kart (Riskli) -->
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden transition-all hover:bg-red-100/50">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-red-500"></div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-red-100 p-2 rounded-full flex-shrink-0">
+                            <span class="text-2xl" role="img" aria-label="Riskli">🔴</span>
+                        </div>
+                        <div class="w-full">
+                            <h3 class="text-lg font-bold text-red-800 mb-2">🚫 Riskli!</h3>
+                            <p class="text-sm text-red-700 mb-3 font-medium">Sağlığınız için bu içeriklerden kesinlikle kaçınmalısınız.</p>
+                            <div id="result-red" class="text-slate-700 text-sm space-y-1 bg-white p-3 rounded-lg border border-red-100 shadow-sm min-h-[50px]"></div>
+                            
+                            <div class="mt-4 bg-white border border-red-200 rounded-xl p-4 shadow-sm relative">
+                                <div class="absolute -top-3 left-4 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold border border-red-200">
+                                    💡 Groq Alternatif Önerisi
+                                </div>
+                                <div id="result-alternative" class="text-sm text-slate-700 mt-2 italic leading-relaxed"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-sm text-slate-500 mb-1">
+                &copy; 2026 NutriMatch | Yapay Zeka (Llama 3 - Groq) destekli akıllı sağlık asistanı. ⚡
+            </p>
+            <p class="text-xs text-slate-400 font-medium">Bu uygulama tıbbi teşhis veya tavsiye yerine geçmez, sadece bilgilendirme amaçlıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Nasıl Çalışır? (Gizli Modal) -->
+    <div id="how-it-works-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div id="modal-backdrop" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm cursor-pointer"></div>
+        <div class="relative w-full max-w-sm mx-4 p-8 transform scale-95 transition-transform duration-300 shadow-2xl modal-box">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-purple-100 text-purple-700 rounded-full mb-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-purple-900">Nasıl Çalışır?</h3>
+            </div>
+            
+            <ul class="space-y-4 text-slate-700 font-medium text-sm mb-8">
+                <li class="flex items-center gap-3 bg-white/50 p-3 rounded-xl border border-purple-100">
+                    <span class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white font-bold shadow-sm">1</span>
+                    Hastalığını Seç
+                </li>
+                <li class="flex items-center gap-3 bg-white/50 p-3 rounded-xl border border-purple-100">
+                    <span class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white font-bold shadow-sm">2</span>
+                    Yemeğini Yaz
+                </li>
+                <li class="flex items-center gap-3 bg-green-50/70 p-3 rounded-xl border border-green-200">
+                    <span class="flex flex-shrink-0 items-center justify-center w-8 h-8 rounded-full bg-green-500 text-white font-bold shadow-sm">3</span>
+                    Yapay Zeka Analizini Gör
+                </li>
+            </ul>
+
+            <button id="close-modal-btn" class="w-full py-3 px-4 bg-purple-700 hover:bg-purple-800 text-white font-bold rounded-xl transition-all shadow-md active:scale-[0.98]">
+                Anladım, Kapat
+            </button>
+        </div>
+    </div>
+
+    <script src="features/analysis.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

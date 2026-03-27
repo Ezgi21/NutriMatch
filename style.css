@@ -1,0 +1,209 @@
+/* style.css - NutriMatch Lila & Glassmorphism Teması */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* 1. Arka Plan ve Yazı Tipi */
+body {
+    font-family: 'Poppins', sans-serif !important;
+    background-color: #f5f3ff !important;
+}
+
+/* 2. Renk Paleti (Ana Başlıklar ve Vurgu) */
+h1, h2, h3, h4, h5, h6 {
+    color: #6b21a8 !important;
+}
+
+svg.text-primary {
+    color: #6b21a8 !important; 
+}
+
+/* 3. Konteyner ve Kartlar */
+main > div > section, 
+header, 
+footer {
+    background-color: #ffffff !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+}
+
+header {
+    border-radius: 0 0 24px 24px !important;
+}
+
+textarea, input[type="checkbox"] {
+    border-radius: 16px !important;
+}
+
+textarea:focus {
+    box-shadow: 0 0 0 3px #d8b4fe !important;
+    border-color: #9333ea !important;
+}
+
+/* 4. Analiz Butonu */
+#analyze-btn {
+    background: #6b21a8 !important;
+    color: white !important;
+    border-radius: 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+#analyze-btn:hover {
+    background: #581c87 !important;
+    box-shadow: 0 0 20px rgba(107, 33, 168, 0.6), 0 0 40px rgba(107, 33, 168, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+#analyze-btn:disabled {
+    background: #a855f7 !important;
+    cursor: not-allowed !important;
+    transform: translateY(0) !important;
+    box-shadow: none !important;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #6b21a8 !important;
+    border-color: #6b21a8 !important;
+}
+
+header div.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #6b21a8, #a855f7) !important;
+}
+
+/* 5. Sonuç Kartları (Glassmorphism ve Şeritler) */
+#results-section {
+    margin-top: 40px !important;
+}
+
+#results-section > div {
+    border-radius: 24px !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Kartların Parıltı/Hover Efekti */
+#results-section > div:hover {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 8px 30px rgba(107, 33, 168, 0.15) !important;
+    transform: translateY(-3px) scale(1.01);
+}
+
+.bg-green-50, .hover\:bg-green-100\/50:hover {
+    background: rgba(220, 252, 231, 0.45) !important;
+    border: 1px solid rgba(74, 222, 128, 0.3) !important;
+}
+.bg-green-50 > .bg-green-500 {
+    background-color: #22c55e !important;
+    width: 8px !important;
+    border-radius: 24px 0 0 24px !important;
+}
+
+.bg-yellow-50, .hover\:bg-yellow-100\/50:hover {
+    background: rgba(254, 252, 216, 0.45) !important;
+    border: 1px solid rgba(250, 204, 21, 0.3) !important;
+}
+.bg-yellow-50 > .bg-yellow-400 {
+    background-color: #eab308 !important;
+    width: 8px !important; 
+    border-radius: 24px 0 0 24px !important;
+}
+
+.bg-red-50, .hover\:bg-red-100\/50:hover {
+    background: rgba(254, 226, 226, 0.45) !important;
+    border: 1px solid rgba(248, 113, 113, 0.3) !important;
+}
+.bg-red-50 > .bg-red-500 {
+    background-color: #ef4444 !important;
+    width: 8px !important;
+    border-radius: 24px 0 0 24px !important;
+}
+
+.bg-white.border-red-200 {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(8px) !important;
+    border-radius: 16px !important;
+}
+
+/* 6. Animasyon */
+@keyframes slideFadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+main > div > section, #results-section > div {
+    animation: slideFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+main > div > section:nth-child(1) { animation-delay: 0.1s; }
+main > div > section:nth-child(2) { animation-delay: 0.25s; }
+
+#results-section > div:nth-child(2) { animation-delay: 0.1s; }
+#results-section > div:nth-child(3) { animation-delay: 0.25s; }
+#results-section > div:nth-child(4) { animation-delay: 0.4s; }
+
+/* 7. Modal Glassmorphism ve Efektleri */
+.modal-box {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 24px !important;
+}
+
+#how-it-works-modal.active {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+#how-it-works-modal.active .modal-box {
+    transform: scale(1) !important;
+}
+
+/* 8. Geçmiş Analiz Kartları (Son Analizlerim) */
+.history-card {
+    background-color: #f3e8ff !important;
+    color: #6b21a8 !important;
+    border: 1px solid #e9d5ff !important;
+    border-radius: 12px !important;
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03) !important;
+    white-space: nowrap !important;
+    max-width: 160px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: inline-block;
+}
+
+.history-card:hover {
+    background-color: #e9d5ff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(107, 33, 168, 0.15) !important;
+}
+
+/* 9. Güvenli Alışveriş Listesi Kartları (Safe Items) */
+.safe-item-card {
+    background-color: #fdf4ff !important; /* Lila ile hafif pembe alt tonlu beyaz */
+    color: #7e22ce !important; /* Parlak mor (Lila ailesi) */
+    border: 1px solid #f3e8ff !important;
+    border-radius: 12px !important;
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.safe-item-card:hover {
+    background-color: #f3e8ff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(126, 34, 206, 0.1) !important;
+}
