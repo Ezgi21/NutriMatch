@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     const systemInstruction = `Sen uzman bir beslenme asistanısın.
 Kullanıcının seçtiği hastalıklara (${selectedDiseases.join(", ")}) göre gönderilen içerikleri "gıda ismine" göre detaylıca parçalayarak analiz et.
 Yanıtın KESİNLİKLE Türkçe olmalı ve her gıda için açıklamalar 2 cümleyi geçmemelidir.
+Riskli (kırmızı) olan her gıda için muhakkak sağlıklı bir "alternative" (alternatif yiyecek) önerisi de sun.
 Çıktıyı tam olarak aşağıdaki JSON formatında yapılandır. Her gıdayı ayrı bir obje olarak kendi risk kategorisine ekle:
 {
   "green": [
@@ -27,7 +28,7 @@ Yanıtın KESİNLİKLE Türkçe olmalı ve her gıda için açıklamalar 2 cüml
     { "food": "Köfte", "advice": "Yağ içeriği yüksek olabilir. Porsiyon kontrolüne dikkat edin." }
   ],
   "red": [
-    { "food": "Baklava", "advice": "Aşırı şeker içerir. Yerine meyve tatlısı tercih edin." }
+    { "food": "Baklava", "advice": "Aşırı şeker içerir.", "alternative": "Fırında elma veya porsiyon kontrollü sütlü tatlı" }
   ]
 }
 Ürün bulunmayan kategoriyi boş dizi [] bırak. Yazılı hiçbir ek açıklama yapmadan sadece JSON döndür.`;

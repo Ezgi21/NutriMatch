@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Arama, Giriş ve Sonuç Komponentleri
     const btnAnalyze = document.getElementById("analyze-btn");
     const inputIngredients = document.getElementById("ingredients-input");
-    
+
     // Checkbox'lar
     const chkDiyabet = document.getElementById("chk-diyabet");
     const chkColyak = document.getElementById("chk-colyak");
@@ -17,20 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultGreen = document.getElementById("result-green");
     const resultYellow = document.getElementById("result-yellow");
     const resultRed = document.getElementById("result-red");
-    const resultAlternative = document.getElementById("result-alternative");
 
     // Geçmiş Aramalar (Son 5 Analiz) DOM
     const historyContainer = document.getElementById("history-container");
     const historyList = document.getElementById("history-list");
-    const historyCount = document.getElementById("history-count"); 
+    const historyCount = document.getElementById("history-count");
     let searchHistory = JSON.parse(localStorage.getItem("nutrimatch_history")) || [];
 
     // Güvenli Alışveriş Listesi DOM 
     const safeListContainer = document.getElementById("safe-list-container");
     const safeListEl = document.getElementById("safe-list");
     const clearSafeListBtn = document.getElementById("clear-safe-list-btn");
-    const safeListCount = document.getElementById("safe-list-count"); 
-    const safeListEmptyMsg = document.getElementById("safe-list-empty"); 
+    const safeListCount = document.getElementById("safe-list-count");
+    const safeListEmptyMsg = document.getElementById("safe-list-empty");
     let safeItemsHistory = JSON.parse(localStorage.getItem("nutrimatch_safe_items")) || [];
 
     // Modal İşlemleri
@@ -38,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalHowItWorks = document.getElementById("how-it-works-modal");
     const btnCloseModal = document.getElementById("close-modal-btn");
     const modalBackdrop = document.getElementById("modal-backdrop");
-    
-    if(btnHowItWorks && modalHowItWorks) {
+
+    if (btnHowItWorks && modalHowItWorks) {
         btnHowItWorks.addEventListener("click", () => {
             modalHowItWorks.classList.remove("hidden");
             setTimeout(() => modalHowItWorks.classList.add("active"), 10);
@@ -58,12 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderSafeList() {
         if (!safeListEl) return;
         safeListEl.innerHTML = "";
-        
+
         if (safeItemsHistory.length > 0) {
-            safeListCount.textContent = safeItemsHistory.length; 
-            safeListEmptyMsg.classList.add("hidden"); 
-            clearSafeListBtn.classList.remove("hidden"); 
-            
+            safeListCount.textContent = safeItemsHistory.length;
+            safeListEmptyMsg.classList.add("hidden");
+            clearSafeListBtn.classList.remove("hidden");
+
             safeItemsHistory.forEach((item) => {
                 const card = document.createElement("div");
                 card.className = "safe-item-card";
@@ -71,29 +70,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 safeListEl.appendChild(card);
             });
         } else {
-            safeListCount.textContent = "0"; 
-            safeListEmptyMsg.classList.remove("hidden"); 
-            clearSafeListBtn.classList.add("hidden"); 
+            safeListCount.textContent = "0";
+            safeListEmptyMsg.classList.remove("hidden");
+            clearSafeListBtn.classList.add("hidden");
         }
     }
 
     function addToSafeList(greenItemsArray) {
         if (!greenItemsArray || greenItemsArray.length === 0) return;
-        
+
         greenItemsArray.forEach(item => {
             // Yiyecek string veya obje (yeni JSON yapısı) olabilir, esnek yakala
             const textValue = typeof item === 'string' ? item : (item.food || "");
             const cleanItem = textValue.trim();
-            
+
             if (cleanItem.length === 0) return;
-            
+
             const exists = safeItemsHistory.some(existing => existing.toLowerCase() === cleanItem.toLowerCase());
-            
+
             if (!exists) {
                 safeItemsHistory.unshift(cleanItem);
             }
         });
-        
+
         localStorage.setItem("nutrimatch_safe_items", JSON.stringify(safeItemsHistory));
         renderSafeList();
     }
@@ -112,32 +111,32 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderHistory() {
         if (!historyList) return;
         historyList.innerHTML = "";
-        
+
         if (searchHistory.length > 0) {
             historyContainer.classList.remove("hidden");
-            historyCount.textContent = searchHistory.length; 
+            historyCount.textContent = searchHistory.length;
             searchHistory.forEach((item) => {
                 const card = document.createElement("div");
                 card.className = "history-card";
                 card.title = `${item.text} (${item.diseases.join(", ")})`;
-                
+
                 let shortText = item.text.length > 18 ? item.text.substring(0, 18) + "..." : item.text;
                 card.innerHTML = `<span>🕒 ${shortText}</span>`;
-                
+
                 card.addEventListener("click", () => {
                     inputIngredients.value = item.text;
                     chkDiyabet.checked = item.diseases.includes("Diyabet");
                     chkColyak.checked = item.diseases.includes("Çölyak (Glutensiz diyet)");
                     chkHipertansiyon.checked = item.diseases.includes("Hipertansiyon (Düşük sodyum/tuzlu)");
-                    
+
                     showResultsUI(item.parsedData);
                 });
-                
+
                 historyList.appendChild(card);
             });
         } else {
             historyContainer.classList.add("hidden");
-            historyCount.textContent = "0"; 
+            historyCount.textContent = "0";
         }
     }
 
@@ -146,18 +145,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (existingIndex !== -1) {
             searchHistory.splice(existingIndex, 1);
         }
-        
+
         searchHistory.unshift({
             text: text,
             diseases: diseases,
             parsedData: parsedData,
             date: new Date().toISOString()
         });
-        
+
         if (searchHistory.length > 5) {
             searchHistory.pop();
         }
-        
+
         localStorage.setItem("nutrimatch_history", JSON.stringify(searchHistory));
         renderHistory();
     }
@@ -165,9 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Arayüz Sonuç Yansıtma Modülü
     function showResultsUI(parsedData) {
         // Obje veya eski versiyondan kalma stringleri güvenle basmak için map fonksiyonları:
-        
+
         if (parsedData.green && parsedData.green.length > 0) {
-            resultGreen.innerHTML = `<ul class="list-none space-y-2">` + 
+            resultGreen.innerHTML = `<ul class="list-none space-y-2">` +
                 parsedData.green.map(item => {
                     if (typeof item === 'string') return `<li class="mb-1">✅ ${item}</li>`;
                     return `<li class="mb-1 bg-green-50/50 p-2 rounded-lg border border-green-100"><strong class="text-green-900 block md:inline">${item.food}:</strong> <span class="text-green-800">${item.advice}</span></li>`;
@@ -177,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (parsedData.yellow && parsedData.yellow.length > 0) {
-            resultYellow.innerHTML = `<ul class="list-none space-y-2">` + 
+            resultYellow.innerHTML = `<ul class="list-none space-y-2">` +
                 parsedData.yellow.map(item => {
                     if (typeof item === 'string') return `<li class="mb-1">⚠️ ${item}</li>`;
                     return `<li class="mb-1 bg-yellow-50/50 p-2 rounded-lg border border-yellow-100"><strong class="text-yellow-900 block md:inline">${item.food}:</strong> <span class="text-yellow-800">${item.advice}</span></li>`;
@@ -187,18 +186,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (parsedData.red && parsedData.red.length > 0) {
-            resultRed.innerHTML = `<ul class="list-none space-y-2">` + 
+            resultRed.innerHTML = `<ul class="list-none space-y-3">` +
                 parsedData.red.map(item => {
                     if (typeof item === 'string') return `<li class="mb-1">🚫 ${item}</li>`;
-                    return `<li class="mb-1 bg-red-50/50 p-2 rounded-lg border border-red-100"><strong class="text-red-900 block text-lg mb-1">${item.food}</strong><span class="text-red-800 block">${item.advice}</span></li>`;
+                    
+                    let htmlBlock = `<li class="mb-1 bg-red-50/50 p-3 rounded-xl border border-red-100"><strong class="text-red-900 block text-lg mb-1">${item.food}</strong><span class="text-red-800 block">${item.advice}</span>`;
+                    
+                    if (item.alternative) {
+                        htmlBlock += `
+                        <button type="button" class="mt-3 w-full text-left bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold py-2 px-3 rounded-lg transition-colors flex items-center justify-between" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                            <span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg> Alternatif Önerisi Göster</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="hidden mt-2 p-3 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-indigo-900 shadow-inner">
+                            <strong>💡 Öneri:</strong> ${item.alternative}
+                        </div>`;
+                    }
+                    
+                    htmlBlock += `</li>`;
+                    return htmlBlock;
                 }).join('') + `</ul>`;
         } else {
             resultRed.innerHTML = `<p class="italic text-gray-500">Bu test için riskli kabul edilen yiyecek bulunmamaktadır.</p>`;
         }
-
-        // Genel "Alternatif" blokunu artık kullanmıyoruz çünkü gıdaların içerisine (advice içine) gömülü geliyor.
-        const altContainer = resultAlternative?.parentElement;
-        if (altContainer) altContainer.classList.add("hidden");
 
         resultsSection.classList.remove("hidden");
         // Optimizasyonlu Scroll:
@@ -234,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resultsSection.classList.add("hidden");
         loadingIndicator.classList.remove("hidden");
-        
+
         inputIngredients.disabled = true;
         btnAnalyze.disabled = true;
         btnAnalyze.innerHTML = `⚡ Analiz Ediliyor...`;
@@ -243,9 +253,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // features/analysis.js üzerinden yönlendirmeli analiz başlat
             let rawResponse = await analyzeWithGroq(textContent, selectedDiseases);
             rawResponse = rawResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
-            
+
             const parsedData = JSON.parse(rawResponse);
-            
+
             showResultsUI(parsedData);
             saveToHistory(textContent, selectedDiseases, parsedData);
 
@@ -255,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("DOM Olayı veya API Hatası:", error);
-            
+
             if (error.message === "QUOTA_ERROR" || error.message.includes("429")) {
                 const quotaWarning = document.createElement("div");
                 quotaWarning.id = "quota-warning";
@@ -275,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
             loadingIndicator.classList.add("hidden");
             inputIngredients.disabled = false;
-            
+
             btnAnalyze.disabled = false;
             btnAnalyze.innerHTML = `
                 <svg class="w-5 h-5 shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
