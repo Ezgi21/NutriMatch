@@ -2,7 +2,7 @@
 // NutriMatch Frontend İstek Yöneticisi Katmanı (Vercel Serverless Function'a Bağlıdır)
 
 // Front-end API Proxy Bağlantı Noktası (Vercel Backend)
-const INTERNAL_ENDPOINT = "/api/analyze";
+const INTERNAL_ENDPOINT = "/features/api/analyze";
 
 /**
  * Sunucusuz API'mize (Vercel Backend) bağlanıp içerikleri analiz ettirir.
