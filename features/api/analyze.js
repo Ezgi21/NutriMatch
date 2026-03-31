@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     const systemInstruction = `Sen uzman bir beslenme asistanısın.
 Kullanıcının seçtiği hastalıklara (${selectedDiseases.join(", ")}) göre gönderilen içerikleri "gıda ismine" göre detaylıca parçalayarak analiz et.
 Yanıtın KESİNLİKLE Türkçe olmalı ve her gıda için açıklamalar 2 cümleyi geçmemelidir.
-Riskli (kırmızı) olan her gıda için muhakkak sağlıklı bir "alternative" (alternatif yiyecek) önerisi de sun.
+Riskli (kırmızı) olan her gıda için muhakkak sağlıklı bir "alternative" (alternatif yiyecek) önerisi de sun. Önerilen alternatifleri hastalığa göre özelleştir; örneğin Diyabet hastasıysa düşük glisemik indeksli, Çölyak hastasıysa glutensiz alternatifler sun.
 Çıktıyı tam olarak aşağıdaki JSON formatında yapılandır. Her gıdayı ayrı bir obje olarak kendi risk kategorisine ekle:
 {
   "green": [
