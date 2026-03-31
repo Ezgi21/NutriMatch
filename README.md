@@ -5,9 +5,9 @@ Bir Endüstri Mühendisliği öğrencisi olarak, verinin insan sağlığı üzer
 
 Projemin teknik kalbinde **Groq Llama 3** modeli yer alırken, geliştirme sürecini **Antigravity** editöründe **Vibe Coding** disipliniyle yönettim. API güvenliğini sağlamak adına **Vercel Serverless Function** mimarisini kurgulayarak profesyonel bir backend yapısı oluşturdum. Projemi **5'ten fazla gerçek kullanıcıyla** test ederek, onların talepleri doğrultusunda 'Akıllı Alternatif Yiyecek Önerileri' özelliğini entegre ettim; böylece sadece riskleri söyleyen değil, çözüm üreten bir asistan yarattım. NutriMatch, yapay zekanın sadece bir araç değil, doğru kurgulandığında bireylerin yaşam kalitesini doğrudan artıran bir rehber olduğunun en net kanıtıdır. Bu yolculuk, karmaşık problemleri yapay zeka ile hızla çözebilme yeteneğimi ve kullanıcı odaklı mühendislik yaklaşımımı yansıtan en önemli projemdir.
 
-<img width="2160" height="1440" alt="Ekran Görüntüsü (178)" src="https://github.com/user-attachments/assets/90f87dc4-6815-4c1b-9f57-5a1a65d0454f" />
+<img width="2139" height="1237" alt="Ekran Görüntüsü (178)" src="https://github.com/user-attachments/assets/5c0bfa33-2e0f-4b13-a111-f24d24ba33a1" />
 
-<img width="2160" height="1440" alt="Ekran Görüntüsü (270)" src="https://github.com/user-attachments/assets/af0a973b-ec67-4d02-9737-64085902ac09" />
+<img width="2160" height="1309" alt="Ekran Görüntüsü (270)" src="https://github.com/user-attachments/assets/a2d51d96-44de-42d7-a819-ae2facde11a1" />
 
 ## 🔗 Hızlı Erişim
 * **🚀 Canlı Uygulama:** [https://nutri-match-woad.vercel.app](https://nutri-match-woad.vercel.app)
