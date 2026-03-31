@@ -14,10 +14,10 @@ Projemin teknik kalbinde **Groq Llama 3** modeli yer alırken, geliştirme süre
 * **🎥 Demo Videosu:** [https://www.loom.com/share/da482b376d09483ca48295ded5156d0b](https://www.loom.com/share/da482b376d09483ca48295ded5156d0b)
 
 ## 🚨 Problem
-Dünyada kronik rahatsızlığı olan milyonlarca birey, ambalaj üzerindeki karmaşık maddeleri veya restoran menülerindeki içerikleri hızlıca değerlendirmekte zorlanmaktadır. Bu süreç hata payı yüksek ve yorucu bir deneyimdir.
+> Dünyada kronik rahatsızlığı (diyabet, çölyak, hipertansiyon) olan milyonlarca birey, ambalaj üzerindeki karmaşık içerik listelerini veya restoran menülerini anlık olarak değerlendirmekte büyük zorluk yaşamaktadır. Manuel kontrol süreci hem yorucu hem de hata payı yüksek bir deneyimdir; bu durum bireylerin yanlış gıda tüketmesine ve sağlık risklerine yol açmaktadır.
 
 ## 💡 Çözüm
-NutriMatch; paketli gıda ve restoran menülerini saniyeler içinde analiz eder. Llama 3 modeli ile verileri işleyerek güvenli içerikleri sınıflandırır ve riskli gıdalar için kullanıcıya hastalığına uygun akıllı alternatif önerileri sunar.
+> NutriMatch; paketli gıda içeriklerini ve restoran menülerini yapay zeka gücüyle saniyeler içinde analiz eden web tabanlı bir çözümdür. Llama 3 modelini (Groq Cloud API) kullanarak verileri işleyen uygulama, kullanıcının seçtiği kronik rahatsızlığa göre içerikleri sınıflandırır. Riskli gıdaları anında tespit ederek kullanıcıya hastalığına uygun akıllı ve güvenli alternatif önerileri sunar.
 
 ## 🛠️ Kullanılan Teknolojiler
 * **Yapay Zeka:** Llama 3 (Groq Cloud API)
